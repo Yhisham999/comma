@@ -1,0 +1,8 @@
+# Ignore backend files
+comma-backend/.env
+comma-backend/node_modules/
+
+# Ignore frontend files
+comma-dashboard/.env
+comma-dashboard/node_modules/
+comma-dashboard/dist/
