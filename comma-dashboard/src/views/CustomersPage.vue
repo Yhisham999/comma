@@ -420,7 +420,7 @@ export default {
   methods: {
     async fetchRooms() {
       try {
-        const response = await axios.get("http://localhost:3000/api/rooms");
+        const response = await axios.get("/api/rooms");
         this.rooms = response.data;
       } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -429,7 +429,7 @@ export default {
     },
     async fetchCustomers() {
       try {
-        const response = await axios.get("http://localhost:3000/api/customers");
+        const response = await axios.get("/api/customers");
         console.log("API Response:", response.data);
 
         // Map the API response to the expected structure
@@ -451,7 +451,7 @@ export default {
     async fetchBranches() {
       try {
         // Call the /branches API endpoint
-        const response = await axios.get("http://localhost:3000/api/branches");
+        const response = await axios.get("/api/branches");
         this.branches = response.data; // Store the fetched branches
       } catch (error) {
         console.error("Error fetching branches:", error);
@@ -487,10 +487,7 @@ export default {
         };
 
         // Add customer to the database
-        const customerResponse = await axios.post(
-          "http://localhost:3000/api/customers",
-          payload
-        );
+        const customerResponse = await axios.post("/api/customers", payload);
 
         // Automatically check in the customer
         const checkInPayload = {
@@ -505,10 +502,7 @@ export default {
               : null,
         };
 
-        await axios.post(
-          "http://localhost:3000/api/shared-area/check-in",
-          checkInPayload
-        );
+        await axios.post("/api/shared-area/check-in", checkInPayload);
 
         // Update the local customers list
         this.customers.push({
@@ -568,7 +562,7 @@ export default {
 
         // Send a PUT request to the API
         const response = await axios.put(
-          `http://localhost:3000/api/customers/${this.editCustomerData.id}`,
+          `/api/customers/${this.editCustomerData.id}`,
           payload
         );
 
@@ -610,7 +604,7 @@ export default {
       try {
         // Send a DELETE request to the API
         const response = await axios.delete(
-          `http://localhost:3000/api/customers/${this.customerToDelete.id}`
+          `/api/customers/${this.customerToDelete.id}`
         );
 
         // Log the API response
@@ -651,15 +645,11 @@ export default {
 
       try {
         // Send the file to the backend API
-        const response = await axios.post(
-          "http://localhost:3000/api/customers/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Required for file uploads
-            },
-          }
-        );
+        const response = await axios.post("/api/customers/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Required for file uploads
+          },
+        });
 
         // Log the API response
         console.log("API Response:", response.data);

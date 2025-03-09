@@ -273,7 +273,7 @@ export default {
   methods: {
     async loadRooms() {
       try {
-        const response = await axios.get("http://localhost:3000/api/rooms");
+        const response = await axios.get("/api/rooms");
         this.rooms = response.data;
       } catch (error) {
         console.error("Error loading rooms:", error);
@@ -282,9 +282,7 @@ export default {
     },
     async loadKitchenItems() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/kitchen-items"
-        );
+        const response = await axios.get("/api/kitchen-items");
         this.kitchenItems = response.data;
       } catch (error) {
         console.error("Error loading kitchen items:", error);
@@ -293,7 +291,7 @@ export default {
     },
     async loadBookings() {
       try {
-        const response = await axios.get("http://localhost:3000/api/bookings");
+        const response = await axios.get("/api/bookings");
         this.bookings = response.data;
       } catch (error) {
         console.error("Error loading bookings:", error);
@@ -308,7 +306,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/customers/${this.checkInData.customerId}`
+          `/api/customers/${this.checkInData.customerId}`
         );
         if (response.data) {
           this.customerError = "";
@@ -333,10 +331,7 @@ export default {
           customer_id: this.checkInData.customerId,
           room: this.checkInData.room,
         };
-        const response = await axios.post(
-          "http://localhost:3000/api/bookings/check-in",
-          payload
-        );
+        const response = await axios.post("/api/bookings/check-in", payload);
         this.bookings.push(response.data);
         this.showCheckInForm = false;
         this.resetCheckInData();
@@ -372,7 +367,7 @@ export default {
         };
 
         const response = await axios.put(
-          `http://localhost:3000/api/bookings/check-out/${booking.id}`,
+          `/api/bookings/check-out/${booking.id}`,
           payload
         );
 
@@ -426,12 +421,9 @@ export default {
       }
 
       try {
-        await axios.delete(
-          `http://localhost:3000/api/bookings/${this.bookingToDelete.id}`,
-          {
-            data: { reason: this.cancellationReason },
-          }
-        );
+        await axios.delete(`/api/bookings/${this.bookingToDelete.id}`, {
+          data: { reason: this.cancellationReason },
+        });
 
         this.bookings = this.bookings.map((b) =>
           b.id === this.bookingToDelete.id

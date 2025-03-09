@@ -263,9 +263,7 @@ export default {
   methods: {
     async loadKitchenItems() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/kitchen-items"
-        );
+        const response = await axios.get("/api/kitchen-items");
         this.kitchenItems = response.data;
       } catch (error) {
         console.error("Error loading kitchen items:", error);
@@ -276,7 +274,7 @@ export default {
       try {
         const type = this.$route.params.type;
         const response = await axios.get(
-          `http://localhost:3000/api/shared-area/shared-area-checkins/${type}`
+          `/api/shared-area/shared-area-checkins/${type}`
         );
         this.checkIns = response.data;
       } catch (error) {
@@ -292,7 +290,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/customers/${this.checkInData.customerId}`
+          `/api/customers/${this.checkInData.customerId}`
         );
         if (response.data) {
           this.customerError = "";
@@ -317,10 +315,7 @@ export default {
           customer_id: this.checkInData.customerId,
           type: this.checkInData.type,
         };
-        const response = await axios.post(
-          "http://localhost:3000/api/shared-area/check-in",
-          payload
-        );
+        const response = await axios.post("/api/shared-area/check-in", payload);
         this.checkIns.push(response.data);
         this.showCheckInForm = false;
         this.resetCheckInData();
@@ -366,7 +361,7 @@ export default {
         };
 
         const response = await axios.put(
-          `http://localhost:3000/api/shared-area/check-out/${checkIn.id}`,
+          `/api/shared-area/check-out/${checkIn.id}`,
           payload
         );
 
@@ -421,7 +416,7 @@ export default {
 
       try {
         await axios.delete(
-          `http://localhost:3000/api/shared-area-checkins/${this.checkInToDelete.id}`,
+          `/api/shared-area-checkins/${this.checkInToDelete.id}`,
           {
             data: { reason: this.cancellationReason },
           }

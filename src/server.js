@@ -18,7 +18,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "../comma-dashboard/dist")));
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/branches", branchRoutes);
@@ -31,7 +31,7 @@ app.use("/api/shared-area", sharedAreaRoutes);
 app.use("/api/shared-area-checkins", sharedAreaCheckinsRoutes);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../comma-dashboard/dist/index.html"));
 });
 
 // Error handling middleware

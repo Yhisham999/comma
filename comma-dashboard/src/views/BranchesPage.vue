@@ -253,7 +253,7 @@ export default {
     // Fetch all branches from the API
     async fetchBranches() {
       try {
-        const response = await axios.get("http://localhost:3000/api/branches");
+        const response = await axios.get("/api/branches");
         this.branches = response.data;
       } catch (error) {
         console.error("Error fetching branches:", error);
@@ -272,10 +272,7 @@ export default {
           customers_count: this.newBranch.customers_count, // Updated field name
         };
 
-        const response = await axios.post(
-          "http://localhost:3000/api/branches",
-          payload
-        );
+        const response = await axios.post("/api/branches", payload);
         this.branches.push(response.data);
         this.showAddBranchForm = false;
         this.resetNewBranch();
@@ -316,7 +313,7 @@ export default {
         };
 
         const response = await axios.put(
-          `http://localhost:3000/api/branches/${this.editBranchData.id}`,
+          `/api/branches/${this.editBranchData.id}`,
           payload
         );
 
@@ -342,9 +339,7 @@ export default {
     // Delete a branch after confirmation
     async deleteBranchConfirmed() {
       try {
-        await axios.delete(
-          `http://localhost:3000/api/branches/${this.branchToDelete.id}`
-        );
+        await axios.delete(`/api/branches/${this.branchToDelete.id}`);
 
         this.branches = this.branches.filter(
           (b) => b.id !== this.branchToDelete.id

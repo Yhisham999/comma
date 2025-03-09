@@ -172,7 +172,7 @@ export default {
     // Fetch all employees
     async fetchEmployees() {
       try {
-        const response = await axios.get("http://localhost:3000/api/employees");
+        const response = await axios.get("/api/employees");
         console.log("API Response:", response.data); // Debugging
         this.employees = response.data;
       } catch (error) {
@@ -183,9 +183,7 @@ export default {
     // Fetch employee count
     async fetchEmployeeCount() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/employees/count"
-        );
+        const response = await axios.get("/api/employees/count");
         this.employeeCount = response.data.count;
       } catch (error) {
         console.error("Error fetching employee count:", error);
@@ -222,10 +220,7 @@ export default {
           faculty: this.newEmployee.faculty,
         };
         console.log("Sending payload:", payload);
-        const response = await axios.post(
-          "http://localhost:3000/api/employees",
-          payload
-        );
+        const response = await axios.post("/api/employees", payload);
         this.employees.push(response.data);
         this.closeAddEmployeeModal();
         await this.fetchEmployeeCount();
@@ -268,7 +263,7 @@ export default {
         };
 
         const response = await axios.put(
-          `http://localhost:3000/api/employees/${this.editEmployee.id}`,
+          `/api/employees/${this.editEmployee.id}`,
           payload
         );
 
@@ -295,9 +290,7 @@ export default {
     async deleteEmployeeConfirmed() {
       if (this.selectedEmployee) {
         try {
-          await axios.delete(
-            `http://localhost:3000/api/employees/${this.selectedEmployee.id}`
-          );
+          await axios.delete(`/api/employees/${this.selectedEmployee.id}`);
           this.employees = this.employees.filter(
             (e) => e.id !== this.selectedEmployee.id
           );
