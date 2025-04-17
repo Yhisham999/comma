@@ -2,6 +2,12 @@
   <div class="shared-area-selection">
     <h1>Select Shared Area</h1>
     <div class="shared-area-boxes">
+      <div class="box" @click="navigateToSharedAreaTable('All')">
+        <h2>
+          <Icon icon="mdi:clipboard-list-outline" width="50px" height="50px" />
+          All Check-ins
+        </h2>
+      </div>
       <div class="box" @click="navigateToSharedAreaTable('VIP')">
         <h2><Icon icon="ri:vip-fill" width="50px" height="50px" />VIP Area</h2>
       </div>

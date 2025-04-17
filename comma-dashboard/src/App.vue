@@ -187,11 +187,18 @@ export default {
           "rooms",
           "kitchen-items",
           "employees",
+          "Shared-Area",
         ].includes(tab);
       }
       if (this.role === "receptionist") {
         // Receptionist can only see customers, bookings, appointments, and rooms
-        return ["customers", "bookings", "appointments", "rooms"].includes(tab);
+        return [
+          "customers",
+          "bookings",
+          "appointments",
+          "rooms",
+          "Shared-Area",
+        ].includes(tab);
       }
       return false; // Default to hiding tabs
     },
