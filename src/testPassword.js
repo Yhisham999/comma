@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 
-const password = "password123";
-const saltRounds = 10;
+const enteredPassword = "password123";
+const storedHashedPassword =
+  "$2b$10$qzwTMcGZyJj5lkYUwIYBeuNp.IO0JGbslyepQII8fv2zp9Gf60dWy"; /
 
-bcrypt.hash(password, saltRounds, (err, hash) => {
-  if (err) throw err;
-  console.log("Encrypted password:", hash);
+bcrypt.compare(enteredPassword, storedHashedPassword).then((match) => {
+  console.log(match ? "Password matches" : "Password mismatch");
 });

@@ -6,7 +6,7 @@ import axios from "axios";
 
 // Create the Vue app
 const app = createApp(App);
-axios.defaults.baseURL = "";
+axios.defaults.baseURL = "http://localhost:3000/api";
 // Use the router and store
 app.use(router);
 app.use(store);

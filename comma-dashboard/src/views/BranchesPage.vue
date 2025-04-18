@@ -69,7 +69,15 @@
           </div>
           <div class="form-group">
             <label for="phone">Phone Number:</label>
-            <input v-model="newBranch.phone" id="phone" required />
+            <input
+              v-model="newBranch.phone"
+              pattern="\d{11}"
+              maxlength="11"
+              id="phone"
+              title="Phone number must be exactly 11 digits (numbers only)"
+              @input="formatPhone"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="roomsCount">Rooms Count:</label>
@@ -123,7 +131,14 @@
           </div>
           <div class="form-group">
             <label for="edit-phone">Phone Number:</label>
-            <input v-model="editBranchData.phone" id="edit-phone" />
+            <input
+              v-model="editBranchData.phone"
+              id="edit-phone"
+              pattern="\d{11}"
+              maxlength="11"
+              title="Phone number must be exactly 11 digits (numbers only)"
+              @input="formatEditPhone"
+            />
           </div>
           <div class="form-group">
             <label for="edit-roomsCount">Rooms Count:</label>
@@ -250,10 +265,27 @@ export default {
     await this.fetchBranches();
   },
   methods: {
+    validatePhone(phone) {
+      return /^\d{11}$/.test(phone);
+    },
+    formatPhone() {
+      // Remove any non-digit characters
+      this.newBranch.phone = this.newBranch.phone.replace(/\D/g, "");
+      // Limit to 11 characters
+      if (this.newBranch.phone.length > 11) {
+        this.newBranch.phone = this.newBranch.phone.substring(0, 11);
+      }
+    },
+    formatEditPhone() {
+      this.editBranchData.phone = this.editBranchData.phone.replace(/\D/g, "");
+      if (this.editBranchData.phone.length > 11) {
+        this.editBranchData.phone = this.editBranchData.phone.substring(0, 11);
+      }
+    },
     // Fetch all branches from the API
     async fetchBranches() {
       try {
-        const response = await axios.get("/api/branches");
+        const response = await axios.get("http://localhost:3000/api/branches");
         this.branches = response.data;
       } catch (error) {
         console.error("Error fetching branches:", error);
@@ -262,6 +294,10 @@ export default {
     },
     // Add a new branch
     async addBranch() {
+      if (!this.validatePhone(this.newCustomer.phone)) {
+        alert("Phone number must be exactly 11 digits");
+        return;
+      }
       try {
         const payload = {
           name: this.newBranch.name,
@@ -272,7 +308,10 @@ export default {
           customers_count: this.newBranch.customers_count, // Updated field name
         };
 
-        const response = await axios.post("/api/branches", payload);
+        const response = await axios.post(
+          "http://localhost:3000/api/branches",
+          payload
+        );
         this.branches.push(response.data);
         this.showAddBranchForm = false;
         this.resetNewBranch();
@@ -302,6 +341,10 @@ export default {
     },
     // Save edited branch
     async saveEditedBranch() {
+      if (!this.validatePhone(this.editBranchData.phone)) {
+        alert("Phone number must be exactly 11 digits");
+        return;
+      }
       try {
         const payload = {
           name: this.editBranchData.name,
@@ -313,7 +356,7 @@ export default {
         };
 
         const response = await axios.put(
-          `/api/branches/${this.editBranchData.id}`,
+          `http://localhost:3000/api/branches/${this.editBranchData.id}`,
           payload
         );
 
@@ -339,7 +382,9 @@ export default {
     // Delete a branch after confirmation
     async deleteBranchConfirmed() {
       try {
-        await axios.delete(`/api/branches/${this.branchToDelete.id}`);
+        await axios.delete(
+          `http://localhost:3000/api/branches/${this.branchToDelete.id}`
+        );
 
         this.branches = this.branches.filter(
           (b) => b.id !== this.branchToDelete.id
